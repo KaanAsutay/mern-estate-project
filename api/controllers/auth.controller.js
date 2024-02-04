@@ -1,5 +1,7 @@
 import User from "../models/user.model.js"
 import bcryptjs from 'bcryptjs';
+import { errorHandler } from '../utlis/error.js'
+import jwt from 'jsonwebtoken'
 
 export const signup = async (req, res, next) => {
     const {username, email, password} = req.body;
@@ -20,6 +22,7 @@ export const sigin = async (req, res, next) => {
         if (!validUser) return next(errorHandler(404, 'User not found!'))
         const validPassword = bcryptjs.compareSync(password, validUser.password)
         if (!validPassword) return next(errorHandler(401, 'Wrong credentials!'))
+        const token = jwt.sign()
     } catch (error) {
         next(error)
     }
